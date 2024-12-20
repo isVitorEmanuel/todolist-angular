@@ -12,7 +12,7 @@ import {HttpClient} from '@angular/common/http';
 })
 export class TasklistComponent {
     tasks: Task[] = [];
-    @Input() filter: 'completed' | 'pending' = 'pending';
+        @Input() filter: 'completed' | 'pending' = 'pending';
 
     constructor(private http: HttpClient) {}
 
@@ -22,5 +22,12 @@ export class TasklistComponent {
 
     loadTasks() {
         this.http.get<Task[]>('http://localhost:3000/api/task/' + this.filter).subscribe(tasks => {this.tasks = tasks})
+    }
+
+    updateList(updatedTask: Task) {
+        const index = this.tasks.findIndex(task => task.id === updatedTask.id);
+        if (index !== -1) {
+            this.tasks[index] = updatedTask; // Atualiza a tarefa na lista
+        }
     }
 }

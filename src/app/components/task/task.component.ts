@@ -23,6 +23,7 @@ export class TaskComponent {
     public toggleCompleted(): void {
         this.task.complete = !this.task.complete;
         this.http.patch('http://localhost:3000/api/task/' + this.task.id, { complete : this.task.complete }).subscribe( () =>  this.onChange.emit(this.task));
+
     }
 
     deleteTask() {
