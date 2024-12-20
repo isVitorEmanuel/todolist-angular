@@ -1,0 +1,7 @@
+<div class="container">
+    <label>
+        <input type="checkbox" (change)="toggleCompleted()" checked="{{task.complete}}"> {{task.task_text}}
+    </label>
+    <button class="deleteBtn" (click)="deleteTask()">Delete</button>
+
+</div>
