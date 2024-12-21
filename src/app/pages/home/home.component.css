@@ -1,14 +1,12 @@
 .container {
-    border: 1px solid red;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
 }
 
 .todo {
-    border: 1px solid green;
     padding: 2rem 4rem;
     display: flex;
     flex-direction: column;
@@ -16,7 +14,6 @@
 }
 
 .completed {
-    border: 1px solid blue;
     padding: 2rem 4rem;
     display: flex;
     flex-direction: column;

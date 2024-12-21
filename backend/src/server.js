@@ -18,14 +18,29 @@ const client = new Client({
 
 client.connect();
 
-// Endpoint para obter tarefas com base no filtro (completed ou pending)
-app.get('/api/task/:filter', async (req, res) => {
-    const filter = req.params.filter;
-    const query = filter === 'completed'
-        ? 'SELECT * FROM tasks WHERE complete = TRUE'
-        : filter === 'pending'
-            ? 'SELECT * FROM tasks WHERE complete = FALSE'
-            : 'SELECT * FROM tasks';
+// Endpoint para criar uma nova tarefa
+app.post('/api/task', async (req, res) => {
+    const { text } = req.body;
+
+    if (!text) {
+        return res.status(400).json({ error: 'Texto da tarefa é obrigatório' });
+    }
+
+    try {
+        const result = await client.query(
+            'INSERT INTO tasks (task_text, complete) VALUES ($1, FALSE) RETURNING *',
+            [text]
+        );
+        res.status(201).json(result.rows[0]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Erro ao criar tarefa' });
+    }
+});
+
+// Endpoint para obter as tarefas
+app.get('/api/task/', async (req, res) => {
+    const query = 'SELECT * FROM tasks'
 
     try {
         const result = await client.query(query);

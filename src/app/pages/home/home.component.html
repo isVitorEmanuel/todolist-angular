@@ -1,12 +1,12 @@
-<app-form></app-form>
+<app-form (onSubmit)="loadTasks()"></app-form>
 <div class="container">
     <div class="todo">
         <h1>TO DO:</h1>
-        <app-tasklist></app-tasklist>
+        <app-tasklist [tasks]="tasks" (notifyUpdate)="loadTasks()"></app-tasklist>
     </div>
     <div class="completed">
         <h1>COMPLETED:</h1>
-        <app-tasklist filter="completed"></app-tasklist>
+        <app-tasklist filter="completed" [tasks]="tasks" (notifyUpdate)="loadTasks()"></app-tasklist>
     </div>
 </div>
 

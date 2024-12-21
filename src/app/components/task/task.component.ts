@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {FormsModule} from '@angular/forms';
 
 export interface Task {
     id: number;
@@ -9,7 +10,9 @@ export interface Task {
 
 @Component({
   selector: 'app-task',
-  imports: [],
+    imports: [
+        FormsModule
+    ],
   templateUrl: './task.component.html',
   styleUrl: './task.component.css'
 })
@@ -21,12 +24,12 @@ export class TaskComponent {
     constructor(private http: HttpClient) {}
 
     public toggleCompleted(): void {
-        this.task.complete = !this.task.complete;
-        this.http.patch('http://localhost:3000/api/task/' + this.task.id, { complete : this.task.complete }).subscribe( () =>  this.onChange.emit(this.task));
-
+        this.http.patch('http://localhost:3000/api/task/' + this.task.id, { complete : this.task.complete }).subscribe();
+        this.onChange.emit(this.task);
     }
 
     deleteTask() {
-        this.http.delete('http://localhost:3000/api/task/' + this.task.id).subscribe(() => this.taskDeleted.emit(this.task.id));
+        this.http.delete('http://localhost:3000/api/task/' + this.task.id).subscribe();
+        this.taskDeleted.emit(this.task.id);
     }
 }

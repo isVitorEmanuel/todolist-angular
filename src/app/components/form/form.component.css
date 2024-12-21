@@ -1,0 +1,11 @@
+form {
+    display: flex;
+    margin-top: 1rem;
+    gap: 1rem;
+    justify-content: center;
+}
+
+button:hover {
+    background-color: #68f368;
+    border-radius: 5px;
+}

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
 import {Task, TaskComponent} from '../task/task.component';
 import {HttpClient} from '@angular/common/http';
 
@@ -11,23 +11,25 @@ import {HttpClient} from '@angular/common/http';
   styleUrl: './tasklist.component.css'
 })
 export class TasklistComponent {
-    tasks: Task[] = [];
-        @Input() filter: 'completed' | 'pending' = 'pending';
+    @Input() tasks: Task[] = [];
+    @Input() filter: 'completed' | 'pending' = 'pending';
+    @Output() notifyUpdate = new EventEmitter();
 
     constructor(private http: HttpClient) {}
 
     ngOnInit(): void {
-        this.loadTasks();
+        this.updateList();
     }
 
-    loadTasks() {
-        this.http.get<Task[]>('http://localhost:3000/api/task/' + this.filter).subscribe(tasks => {this.tasks = tasks})
-    }
-
-    updateList(updatedTask: Task) {
-        const index = this.tasks.findIndex(task => task.id === updatedTask.id);
-        if (index !== -1) {
-            this.tasks[index] = updatedTask; // Atualiza a tarefa na lista
+    updateList() {
+        for (let task of this.tasks) {
+            if ((task.complete && this.filter !== 'completed')
+                || (!task.complete && this.filter !== 'pending')) {
+                this.tasks = this.tasks.filter(_task => {return _task !== task})
+            }
         }
+    }
+    updateHome() {
+        this.notifyUpdate.emit();
     }
 }

@@ -1,3 +1,6 @@
 @for (task of tasks; track task.id) {
-    <app-task [task]="task" (onChange)="updateList(task)"></app-task>
+    @if ((task.complete && filter === 'completed') ||
+    (!task.complete && filter === 'pending')) {
+        <app-task [task]="task" (onChange)="updateHome()" (taskDeleted)="notifyUpdate.emit()"></app-task>
+    }
 }
